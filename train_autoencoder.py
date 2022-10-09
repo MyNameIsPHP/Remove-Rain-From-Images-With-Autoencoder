@@ -63,7 +63,7 @@ def make_ae_model():
 
     # model
     model = Model(inputs=input_img, outputs=x)
-    model.compile(optimizer='adam', loss='binary_crossentropy')
+    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['acc'])
 
     return model
 
@@ -91,11 +91,20 @@ history = my_model.fit(rain_train, normal_train, epochs=n_epochs, batch_size=n_b
                        callbacks=[early_callback])
 
 my_model.save("rain_remove_model.h5")
+plt.plot(history.history['acc'])
+plt.plot(history.history['val_acc'])
+plt.title('model accuracy')
+plt.ylabel('accuracy')
+plt.xlabel('epoch')
+plt.legend(['train', 'val'], loc='upper left')
+plt.show()
+
 plt.plot(history.history['loss'])
 plt.plot(history.history['val_loss'])
-plt.legend(['Training', 'Validation'])
-plt.ylim([0,1])
-plt.title('Loss')
-plt.xlabel('Epoch')
+plt.title('model loss')
+plt.ylabel('loss')
+plt.xlabel('epoch')
+plt.legend(['train', 'val'], loc='upper left')
 plt.show()
+
 
